@@ -118,8 +118,10 @@ func (b *dbConnection) Get(tn string, key interface{}) (ret []byte) {
 		bucket := tx.Bucket([]byte(tn))
 		v := bucket.Get(k)
 		// do make space before copy
-		ret = make([]byte, len(v))
-		copy(ret, v)
+		if len(v) > 0 {
+			ret = make([]byte, len(v))
+			copy(ret, v)
+		}
 		return nil
 	})
 	return ret
